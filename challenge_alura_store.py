@@ -9,6 +9,7 @@ Original file is located at
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 url1 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_1.csv"
 url2 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_2.csv"
@@ -111,3 +112,29 @@ def grafico_avaliação(conj_lojas):
 
 
 grafico_avaliação(lojas)
+
+def grafico_faturamento(conj_lojas):
+  faturamentos = [fat_total(conj_lojas[key]) for key in conj_lojas.keys()]
+  fig, ax = plt.subplots()
+
+  ax.pie(faturamentos, labels=conj_lojas.keys(), autopct='%.2f%%')
+  ax.set_title("Porcentagem do Faturamento de cada Loja sobre o Faturamento Total")
+  plt.show()
+
+grafico_faturamento(lojas)
+
+def grafico_frete(conj_lojas):
+  fig, ax = plt.subplots()
+
+  for nome_loja, loja in conj_lojas.items():
+    org_frete = np.sort(loja['Frete'])
+    plt.plot(org_frete, label=nome_loja)
+
+  ax.set_title("Fretes Organizados por Custo em cada Loja")
+  ax.set_xlabel("Índice de Transação (Organizado pelo Custo do Frete)")
+  ax.set_ylabel("Custo do Frete")
+  ax.legend(title='Loja')
+  ax.grid(True, linestyle='--', alpha=0.6)
+  plt.show()
+
+grafico_frete(lojas)
