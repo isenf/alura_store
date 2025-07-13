@@ -27,7 +27,7 @@ def fat_total(loja):
   return faturamento
 
 fat_total(loja1)
-#loja1.head()
+loja1.head()
 
 def qtd_categoria(loja):
   categorias_unicas = list(set(loja['Categoria do Produto']))
@@ -50,3 +50,35 @@ def mais_popular(loja):
 
 print(qtd_categoria(loja1))
 mais_popular(loja1)
+
+def media_avaliacao(loja):
+  soma = 0
+  soma += sum([loja['Avaliação da compra'][i] for i in range(len(loja['Avaliação da compra']))])
+  return round(soma / len(loja['Avaliação da compra']), 2)
+
+print(media_avaliacao(loja1))
+
+def prod_num_vendas(loja):
+  produtos_unicos = list(set(loja['Produto']))
+  qtd_vendida = []
+
+  for prod in produtos_unicos:
+    produto = [p for p in loja['Produto'] if p == prod]
+    qtd_vendida.append(len(produto))
+
+  dict_prod = {produtos_unicos[i]: qtd_vendida[i] for i in range(len(produtos_unicos))}
+  return dict_prod
+
+def mais_vendido(loja):
+  num_vendas = prod_num_vendas(loja)
+  mais_vendido = max(num_vendas, key=num_vendas.get)
+
+  return mais_vendido, num_vendas[mais_vendido]
+
+def menos_vendido(loja):
+  num_vendas = prod_num_vendas(loja)
+  menos_vendido = min(num_vendas, key=num_vendas.get)
+
+  return menos_vendido, num_vendas[menos_vendido]
+
+print(menos_vendido(loja1))
