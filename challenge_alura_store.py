@@ -30,9 +30,6 @@ def fat_total(loja):
     faturamento += i
   return faturamento
 
-fat_total(loja1)
-loja1.head()
-
 def qtd_categoria(loja):
   categorias_unicas = list(set(loja['Categoria do Produto']))
   agrup_cat = []
@@ -52,15 +49,10 @@ def mais_popular(loja):
     if categorias[cat] == max(categorias.values()):
       return cat
 
-print(qtd_categoria(loja1))
-mais_popular(loja1)
-
 def media_avaliacao(loja):
   soma = 0
   soma += sum([loja['Avaliação da compra'][i] for i in range(len(loja['Avaliação da compra']))])
   return round(soma / len(loja['Avaliação da compra']), 2)
-
-print(media_avaliacao(loja1))
 
 def prod_num_vendas(loja):
   produtos_unicos = list(set(loja['Produto']))
@@ -85,8 +77,6 @@ def menos_vendido(loja):
 
   return menos_vendido, num_vendas[menos_vendido]
 
-print(menos_vendido(loja1))
-
 def frete_custo_med(loja):
   soma = 0
   soma += [loja['Frete'][i] for i in range(len(loja['Frete']))]
@@ -110,9 +100,6 @@ def grafico_avaliação(conj_lojas):
     plt.text(i, valor + 0.01, f"{valor:.2f}", ha='center')
   plt.show()
 
-
-grafico_avaliação(lojas)
-
 def grafico_faturamento(conj_lojas):
   faturamentos = [fat_total(conj_lojas[key]) for key in conj_lojas.keys()]
   fig, ax = plt.subplots()
@@ -120,8 +107,6 @@ def grafico_faturamento(conj_lojas):
   ax.pie(faturamentos, labels=conj_lojas.keys(), autopct='%.2f%%')
   ax.set_title("Porcentagem do Faturamento de cada Loja sobre o Faturamento Total")
   plt.show()
-
-grafico_faturamento(lojas)
 
 def grafico_frete(conj_lojas):
   fig, ax = plt.subplots()
@@ -136,5 +121,3 @@ def grafico_frete(conj_lojas):
   ax.legend(title='Loja')
   ax.grid(True, linestyle='--', alpha=0.6)
   plt.show()
-
-grafico_frete(lojas)
