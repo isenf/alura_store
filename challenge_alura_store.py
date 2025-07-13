@@ -8,6 +8,7 @@ Original file is located at
 """
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 url1 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_1.csv"
 url2 = "https://raw.githubusercontent.com/alura-es-cursos/challenge1-data-science/refs/heads/main/base-de-dados-challenge-1/loja_2.csv"
@@ -18,6 +19,8 @@ loja1 = pd.read_csv(url1)
 loja2 = pd.read_csv(url2)
 loja3 = pd.read_csv(url3)
 loja4 = pd.read_csv(url4)
+
+lojas = {'Loja 1': loja1, 'Loja 2': loja2, 'Loja 3': loja3, 'Loja 4': loja4}
 
 def fat_total(loja):
   faturamento = 0
@@ -82,3 +85,29 @@ def menos_vendido(loja):
   return menos_vendido, num_vendas[menos_vendido]
 
 print(menos_vendido(loja1))
+
+def frete_custo_med(loja):
+  soma = 0
+  soma += [loja['Frete'][i] for i in range(len(loja['Frete']))]
+
+  return round(soma/len(loja['Frete']), 2)
+
+print(frete_custo_med(loja1))
+
+def grafico_avaliação(conj_lojas):
+  av_lojas = [media_avaliacao(conj_lojas[key]) for key in conj_lojas.keys()]
+  fix, ax = plt.subplots()
+
+  y_min = min(av_lojas) - 0.08
+  y_max = max(av_lojas) + 0.08
+
+  ax.bar(x = conj_lojas.keys(), height = av_lojas, label = 'blue')
+  ax.set_ylabel('Valor das Avaliações')
+  ax.set_title('Média de Avaliações de cada Loja')
+  ax.set_ylim(y_min, y_max)
+  for i, valor in enumerate(av_lojas):
+    plt.text(i, valor + 0.01, f"{valor:.2f}", ha='center')
+  plt.show()
+
+
+grafico_avaliação(lojas)
